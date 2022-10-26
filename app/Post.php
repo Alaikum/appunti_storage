@@ -36,8 +36,11 @@ class Post extends Model
         return $slug;
     }
 
-
+//così non modifico il cover per non creare problemi con la delete
     public function getCoverPathAttribute(){
+
+        // per abilitare riga sotto va modificato APP_URL in env, diventa http://localhost:8800
+        // return Storage::disk('image')->utl($this->cover);
         return asset('images/'. $this->cover);
     }
 }

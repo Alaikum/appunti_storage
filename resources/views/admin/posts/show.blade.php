@@ -13,11 +13,11 @@
 
         <div class="row">
             <div class="col-12">
-                <img src="{{asset('images/'. $post->cover)}}" alt="">
+                <img src="{{$post->cover_path}}" alt="">
                 <h2>{{ $post->title }}</h2>
                 <p>{{ $post->slug }}</p>
                 <p>{{ $post->created_at }}</p>
-                <p>{{ $post->update_at }}</p>
+                <p>{{ $post->updated_at }}</p>
 
                 Categoria:
                 @if ($post->category)

@@ -35,4 +35,9 @@ class Post extends Model
         }
         return $slug;
     }
+
+
+    public function getCoverPathAttribute(){
+        return asset('images/'. $this->cover);
+    }
 }

@@ -13,7 +13,7 @@
 
         <div class="row">
             <div class="col-12">
-                <img src="{{asset('storage/'. $post->cover)}}" alt="">
+                <img src="{{asset('images/'. $post->cover)}}" alt="">
                 <h2>{{ $post->title }}</h2>
                 <p>{{ $post->slug }}</p>
                 <p>{{ $post->created_at }}</p>

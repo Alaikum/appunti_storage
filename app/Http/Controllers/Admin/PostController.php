@@ -18,7 +18,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::limit(150)->get();
+        $posts = Post::limit(150)->orderBy('id','desc')->get();
         return view('admin.posts.index', compact('posts'));
     }
 
@@ -44,16 +44,16 @@ class PostController extends Controller
     {
 
         // controllo file caricato bene
-// dd($request->file('image')); 
+        // dd($request->file('image')); 
 
         $params = $request->validate([
             'title' => 'required|max:255|min:3',
             'content' => 'required',
             'category_id' => 'nullable|exists:App\Category,id',
-            'cover'=>'nullable|image|max:2048'  //non supera i due mega, ragiona in kilobyte
+            'cover' => 'nullable|image|max:2048'  //non supera i due mega, ragiona in kilobyte
         ]);
 
-      
+
 
         // $slug_base = Str::slug($params['title']);
         // $slug=$slug_base;
@@ -70,14 +70,17 @@ class PostController extends Controller
         // $params['slug'] = $slug;
         $params['slug'] = Post::getUniqueSlugFromTitle($params['title']);
 
-        if(array_key_exists('cover',$params)){
-            $img_path=Storage::put('uploads', $request->file('cover'));
+        if (array_key_exists('cover', $params)) {
+            // $img_path = Storage::put('uploads', $request->file('cover'));
+
+            //cambio disco di salvataggio
+            $img_path = Storage::disk('images')->put('post_covers', $request->file('cover'));
             // dd($img_path);
             // $img_path=Storage::put('uploads', $params['image']);
-            $params['cover']=$img_path;
+            $params['cover'] = $img_path;
             // dd(  $params['cover']);
         }
-        
+
         $post = Post::create($params);
         // dd($post);
         return redirect()->route('admin.posts.show', $post);
@@ -122,10 +125,8 @@ class PostController extends Controller
             'category_id' => 'nullable|exists:App\Category,id'
         ]);
 
-        if($params['title']!== $post->title){
+        if ($params['title'] !== $post->title) {
             $params['slug'] = Post::getUniqueSlugFromTitle($params['title']);
-         
-
         }
 
 
@@ -143,7 +144,15 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        //così se elimino il post rimane comunque salvato il percoso per eliminare la cover
+        $cover = $post->cover;
+
         $post->delete();
+        //elimino la foto dopo l'eliminazione del post
+        if ($cover && Storage::disk('images')->exists($cover)) {
+            Storage::disk('images')->delete($cover);
+        }
+
         return redirect()->route('admin.posts.index');
     }
 }

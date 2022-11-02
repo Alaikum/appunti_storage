@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+// creiamo rotta /api/posts collegata Api\PostController@index e poi la show /api/posts/{post}->Api\PostController@show
+Route::resource('posts','Api\PostController')->only(['index','show']);
+
+// ALTRO MODO PER CHIAMARE LA ROTTA
+// Route::get('posts','Api\PostController@index');

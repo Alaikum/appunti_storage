@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Category;
 use App\Http\Controllers\Controller;
+use App\Mail\SendNewMail;
 use App\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -83,6 +85,15 @@ class PostController extends Controller
 
         $post = Post::create($params);
         // dd($post);
+
+        //INVIO MAIL
+
+        //invio email al loggato
+        // Mail::to($request->user());
+
+        Mail::to($request->user())->send(new SendNewMail($post));
+
+
         return redirect()->route('admin.posts.show', $post);
     }
 

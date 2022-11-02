@@ -21,7 +21,7 @@
                         <label for="cover">
                             cover
                         </label>
-                        <input type="file" class="" name="cover" id="cover" required>
+                        <input type="file" class="" name="cover" id="cover" >
                         <label for="cover">Scegli immagine</label>
                     </p>
                     <p>

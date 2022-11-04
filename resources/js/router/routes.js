@@ -2,6 +2,7 @@ import Home from "../pages/Home.vue" ;
 import ContactUs from "../pages/ContactUs.vue" ;
 import Post from "../pages/Post.vue" ;
 import PostsShow from "../pages/Posts.show.vue" ;
+import Page404 from "../pages/404.vue";
 
 const routes = [
     {
@@ -23,7 +24,13 @@ const routes = [
         path:'/post/:slug',
         name:'posts.show',
         component: PostsShow,
-        props:true,
+        props:true,  // serve a far passare il valore slug come proprietà
+      },
+      { //rotta per rotte inesistenti deve esse l ultima
+        path:'/*',
+        name:'404',
+        component: Page404,
+      
       }
   ];
 

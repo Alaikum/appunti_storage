@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Post;
+use App\Lead;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
-class PostController extends Controller
+class LeadController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,10 +15,8 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {                                                          //with(,'tags','category.posts')  paginate , post per pagina
-        $result = Post::orderBy('created_at', 'desc')->with('category')->paginate(12);
-        $success = true;
-        return response()->json(compact('result', 'success'));
+    {
+        //
     }
 
     /**
@@ -28,7 +27,29 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'name' => 'required|max:255',
+            'email' => 'required|max:255|email',
+            'message' => 'required'
+        ]);
+        //controllare se i nostri dati sono validi
+        if($validator->fails()){
+            //se validazione  va fame entro qui
+            return response()->json([
+                'success'=> false,
+                'errors'=> $validator ->errors()
+            ],400);
+        }
+        $lead= Lead::create($data);
+        //invio mail admin
+        //invio mail all utente
+
+        return response()->json([
+            'succes'=>true,
+            'lead'=>$lead
+        ]);
     }
 
     /**
@@ -37,20 +58,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
-    {                                         //,'tags'
-        $post = Post::where('slug', $slug)->with('category')->first();
-        if ($post) {
-            return response()->json([
-                'post' => $post,
-                'success' => true
-            ]);
-        } else {
-            return response()->json([
-                'success' => false
-
-            ],404);
-        }
+    public function show($id)
+    {
+        //
     }
 
     /**

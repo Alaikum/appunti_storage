@@ -1,23 +1,15 @@
 <template>
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Example Component</div>
-
-                    <div class="card-body">
-                        I'm an example component.
-                    </div>
-                </div>
-            </div>
-        </div>
+       <h2>Pagina dei contatti</h2>
+       <p>qui ci contatti</p>
+       <LeadForm/>
     </div>
 </template>
 
 <script>
+import LeadForm from '../components/LeadForm.vue';
+
     export default {
-        mounted() {
-            console.log('Component mounted.')
-        }
-    }
+    components: { LeadForm }
+}
 </script>

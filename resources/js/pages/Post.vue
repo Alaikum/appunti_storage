@@ -7,10 +7,11 @@
             </h1>
         </div>
         <div class="container">
-
+            <Card > Ecco lo slot </Card>
             <div>
-                <router-link :to="{name: 'posts.show', params:{slug:'ciao'}}">
-                    <PostCard v-for='post in posts' :key='post.id' :post="post" />
+                <router-link :to="{name: 'posts.show', params:{slug:post.slug}}" v-for='post in posts' :key='post.id'>
+                    <PostCard  :post="post" />
+                    
                 </router-link>
                 <!-- <router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link> -->
             </div>
@@ -36,11 +37,14 @@
 
 <script>
 import PostCard from '../components/PostCard.vue';
+import Card from '../components/Card.vue';
+
 
 export default {
     components: {
-        PostCard
-    },
+    PostCard,
+    Card
+},
     data() {
         return {
             title: 'Js disse: Sono Tornatoooooooooo',

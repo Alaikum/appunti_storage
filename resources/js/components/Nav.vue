@@ -32,7 +32,7 @@
                     name:'home'
                 },
                 {
-                    text:'Chi Siamo',
+                    text:'Contattaci',
                     path:'/contatti',
                     name:'contact-us'
                 },
